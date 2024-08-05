@@ -1,18 +1,28 @@
-# create-svelte
+Подивитись мапу: https://texty.github.io/trap_aggressor_map/
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Деплой
+Вам знадобиться мати node й зробити `npm install` у папці проєкту
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+1. Зазначте адресу, за якою буде карта (базовий шлях), у `svelte.config.js`:
+```{js}
+paths: {
+  base: process.env.BASE_PATH || '<тут адреса на сайті>',
+  ...
+}
 ```
+Це потрібно для правильного визначення адрес файлів з даними та зображень.
+2. Можливо, треба стилістичні зміни. Розміри мапи у файлі `src/scss/map.scss` у безпосередніх стилях для `figure#assets-map`
+3. Збудуйте проєкт — `vite build`. В результаті має з'явитись папка "dist". Її вміст треба перемістити туди, де буде знаходитись карта. З файла `index.html` потрібно перемістити вміст тега `<head>` до head сторінки з мапою; вміст `<body>` це сама мапа, це треба помістити на відповідне місце на сторінці.
+
+## Зміна даних
+- У папці scripts є пайтонівський скрипт аби перетворити дані з таблиці "ТЗ мапа частина 1" (аркуш "for_map") на geojson для мапи. Дані мають бути збережені у `/scripts/data.csv`. Результат відразу записується у папку static.
+- Додаючи новий актив у таблицю, йому треба дати унікальне id, зараз це номер рядка.
+- Щоб додати нову країну, треба її прапор для іконки. Зображення має бути ширини 150 пікселів у форматі jpg. Назва файлу має збігатись з назвою країни в таблиці. Всі прапори леать у `static/flags`. Наприклад, `static/flags/Czechia.jpg`.
+- Фотографії активів знаходяться у `static/photo`. Назва збігається з ід актива у таблиці. В колонці "photo" має бути вказане ім'я файла, включно з розширенням.
+
+Якщо при оновленні даних не всі країни де є активи зафарбовуються, значить назва країни в таблиці не співпадає з назвою в даних країн. Джерело цих даних — Natural Earth, назва країни в полі "GEOUNIT". Найпростіше рішення проблеми – поправити назву в таблиці, попередньо подивившись у файлі `scripts/countries.geojson` як там пишеться (можливі нюанси накшталт Czechia vs Czech Republic). 
+
+
 
 ## Developing
 
@@ -33,6 +43,3 @@ To create a production version of your app:
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
