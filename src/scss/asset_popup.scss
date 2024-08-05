@@ -1,0 +1,38 @@
+@import 'variables';
+
+.popup.asset-popup {
+	img.asset-photo {
+		width: 100%;
+		max-height: min(15em, 25vh);
+		object-fit: cover;
+	}
+
+	div.flag-and-type {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		color: $grey;
+		text-transform: uppercase;
+		text-align: center;
+
+		img.flag {
+			width: 4em;
+		}
+
+		p {
+			margin: auto 0 auto -4em;
+		}
+	}
+
+	h4 {
+		text-align: center;
+	}
+
+	a {
+		color: inherit;
+		text-decoration-color: $orange;
+		color: $orange;
+		text-underline-offset: 3px;
+		cursor: pointer;
+		outline: none;
+	}
+}

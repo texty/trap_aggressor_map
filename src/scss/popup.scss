@@ -1,0 +1,23 @@
+@import 'variables';
+
+.popup {
+	max-width: 500px;
+	max-height: 80vh;
+	overflow-y: scroll;
+}
+
+.maplibregl-popup {
+	z-index: 100;
+}
+
+.maplibregl-popup-content {
+	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+	button.maplibregl-popup-close-button {
+		color: $grey;
+		margin: 0.5em;
+		border-radius: 100%;
+		font-size: 16px;
+	}
+}

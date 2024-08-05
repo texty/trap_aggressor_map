@@ -1,0 +1,39 @@
+@import 'variables';
+
+.popup.cluster-popup {
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 0;
+		padding: 0;
+		table-layout: auto;
+
+		th,
+		td {
+			padding: 12px;
+			text-align: left;
+
+			&:first-child {
+				padding-left: 0;
+			}
+
+			&:last-child {
+				padding-right: 0;
+			}
+		}
+
+		tr {
+			border-bottom: 1px solid $grey;
+		}
+
+		tbody tr:last-child {
+			border-bottom: 0;
+		}
+
+		tbody tr:not(.details):hover,
+		tr.active {
+			background-color: rgba($color: $orange, $alpha: 0.1);
+			cursor: pointer;
+		}
+	}
+}
