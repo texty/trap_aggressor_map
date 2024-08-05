@@ -1,17 +1,18 @@
 @import 'variables';
 
-* {
-	font-family: 'Manrope', sans-serif;
-}
-
 figure#assets-map {
+	& * {
+		font-family: 'Manrope', sans-serif;
+		font-size: 0.8rem;
+	}
+
 	height: 80vh;
 	margin: 0;
 
 	.assets-map {
 		width: 100%;
 		height: 100%;
-		overflow: visible;
+		overflow: scroll;
 
 		.marker {
 			height: 3em;

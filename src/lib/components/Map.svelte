@@ -11,17 +11,21 @@
 	import type { AppDataType } from '$lib';
 	import AssetPopup from './AssetPopup.svelte';
 	import ClusterPopup from './ClusterPopup.svelte';
+	import { tick } from 'svelte';
 	export let data: AppDataType;
 
 	const orange = '#FF5B00';
 
 	let currentPopUp: Popup | null = null;
 
-	function onPopupOpen(e: CustomEvent) {
-		if (currentPopUp) {
-			currentPopUp._closeButton.click();
-		}
+	async function onPopupOpen(e: CustomEvent) {
+		currentPopUp?._closeButton.click();
+		await tick();
 		currentPopUp = e.detail;
+	}
+
+	function onPopupClose() {
+		currentPopUp = null;
 	}
 </script>
 
@@ -31,6 +35,7 @@
 	standardControls
 	center={[7, 47]}
 	zoom={4}
+	minZoom={2}
 >
 	<GeoJSON id="countries" data={data.countries} promoteId="GEOUNIT">
 		<FillLayer
@@ -54,8 +59,12 @@
 			<div class="marker cluster-marker">
 				<p>{feature.properties?.point_count}</p>
 			</div>
-			<Popup on:open={onPopupOpen} openOn="click" closeOnClickOutside closeButton
-				><ClusterPopup {feature} /></Popup
+			<Popup
+				on:open={onPopupOpen}
+				on:close={onPopupClose}
+				openOn="click"
+				maxWidth="min(500px, 80vw)"
+				closeButton><ClusterPopup {feature} /></Popup
 			>
 		</MarkerLayer>
 
@@ -66,7 +75,14 @@
 					alt={`${feature.properties?.asset_type} icon`}
 				/>
 			</div>
-			<Popup on:open={onPopupOpen} openOn="click" closeOnClickOutside closeButton>
+			<Popup
+				on:open={onPopupOpen}
+				on:close={onPopupClose}
+				openOn="click"
+				maxWidth="min(500px, 80vw)"
+				closeOnClickOutside
+				closeButton
+			>
 				<AssetPopup {feature} />
 			</Popup>
 		</MarkerLayer>
