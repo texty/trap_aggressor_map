@@ -5,11 +5,15 @@ export interface PointDataType {
 	asset_name: string | null;
 	asset_type: string;
 	associated_person: string;
+	associated_person_en: string;
 	relevance: string;
+	relevance_en: string;
 	jurisdiction: string;
 	registered_address: string;
 	link: string | null;
 	link_text: string | null;
+	link_en: string | null;
+	link_text_en: string | null;
 	photo: string | null;
 }
 
@@ -18,8 +22,10 @@ export interface AppDataType {
 	countries: GeoJSON;
 }
 
-export const asset_type_dict: Record<string, string> = {
-	apartment: 'Квартира',
-	house: 'Будинок',
-	company: 'Компанія'
+export type LangType = 'uk' | 'en';
+
+export const asset_type_dict: Record<string, Record<LangType, string>> = {
+	apartment: { uk: 'Квартира', en: 'Apartment' },
+	house: { uk: 'Будинок', en: 'House' },
+	company: { uk: 'Компанія', en: 'Company' }
 };

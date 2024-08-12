@@ -1,13 +1,16 @@
 <script lang="ts">
 	import type { Feature } from 'geojson';
 	import type { Point } from 'GeoJSON';
-	import { mapContext } from 'svelte-maplibre';
+	import type { GeoJSONSource } from 'maplibre-gl';
 	import type { MapContext } from 'svelte-maplibre/context.svelte';
-	import { type PointDataType, asset_type_dict } from '$lib';
+	import { mapContext } from 'svelte-maplibre';
+
+	import { type LangType, type PointDataType, asset_type_dict } from '$lib';
 	import '../../scss/cluster_popup.scss';
 	import AssetPopup from './AssetPopup.svelte';
 
 	export let feature: Feature;
+	export let lang: LangType;
 
 	interface PointFeature extends Feature {
 		properties: PointDataType;
@@ -21,8 +24,7 @@
 	let openAssetData: PointFeature | null = null;
 
 	$: if ($map && $source && feature) {
-		$map
-			?.getSource($source)
+		($map?.getSource($source) as GeoJSONSource | null)
 			?.getClusterLeaves(feature?.properties?.cluster_id, 10000, 0)
 			.then((features: Feature[]) => {
 				innerFeatures = features as PointFeature[];
@@ -43,17 +45,27 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Тип активу</th>
-				<th>Власник(и)</th>
-				<th>Адреса</th>
+				{#if lang === 'uk'}
+					<th>Тип активу</th>
+					<th>Власник(и)</th>
+					<th>Адреса</th>
+				{:else}
+					<th>Asset type</th>
+					<th>Owner(s)</th>
+					<th>Address</th>
+				{/if}
 			</tr></thead
 		>
 		<tbody>
 			{#each innerFeatures as feat (feat.properties.id)}
 				{@const isActive = openAssetData?.properties.id === feat.properties.id}
 				<tr on:click={() => openAsset(feat)} class:active={isActive}>
-					<td>{asset_type_dict[feat.properties.asset_type]}</td>
-					<td>{feat.properties.associated_person}</td>
+					<td>{asset_type_dict[feat.properties.asset_type][lang]}</td>
+					<td
+						>{lang === 'uk'
+							? feat.properties.associated_person
+							: feat.properties.associated_person_en}</td
+					>
 					<td>
 						{#if feat.properties.asset_name}
 							{feat.properties.asset_name}<br />
@@ -61,10 +73,10 @@
 						{feat.properties.registered_address}</td
 					>
 				</tr>
-				{#if isActive}
+				{#if isActive && openAssetData}
 					<tr class="details">
 						<td colspan="3">
-							<AssetPopup feature={openAssetData} />
+							<AssetPopup feature={openAssetData} {lang} />
 						</td>
 					</tr>
 				{/if}

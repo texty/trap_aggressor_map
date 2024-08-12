@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { tick } from 'svelte';
 	import {
+		type Map,
 		MapLibre,
 		GeoJSON,
 		FillLayer,
@@ -8,14 +10,18 @@
 		Popup,
 		hoverStateFilter
 	} from 'svelte-maplibre';
-	import type { AppDataType } from '$lib';
+	import type { AppDataType, LangType } from '$lib';
 	import AssetPopup from './AssetPopup.svelte';
 	import ClusterPopup from './ClusterPopup.svelte';
-	import { tick } from 'svelte';
+	import LangSwitcher from './LangSwitcher.svelte';
+
 	export let data: AppDataType;
 
-	const orange = '#FF5B00';
+	let lang: LangType;
 
+	const orange = '#FF5B00';
+	let map: Map;
+	let loaded = false;
 	let currentPopUp: Popup | null = null;
 
 	async function onPopupOpen(e: CustomEvent) {
@@ -27,7 +33,18 @@
 	function onPopupClose() {
 		currentPopUp = null;
 	}
+
+	// $: if (map && loaded) {
+	// 	const layerIds = ['boundary_country_inner', ];
+	// 	for (const id of layerIds) {
+	// 		map.setPaintProperty(id, 'line-color', orange);
+	// 		map.setPaintProperty(id, 'line-opacity', 0.3);
+	// 		map.setPaintProperty(id, 'line-width', 1);
+	// 	}
+	// }
 </script>
+
+<LangSwitcher bind:lang />
 
 <MapLibre
 	class="assets-map"
@@ -36,6 +53,8 @@
 	center={[7, 47]}
 	zoom={4}
 	minZoom={2}
+	bind:map
+	bind:loaded
 >
 	<GeoJSON id="countries" data={data.countries} promoteId="GEOUNIT">
 		<FillLayer
@@ -64,7 +83,7 @@
 				on:close={onPopupClose}
 				openOn="click"
 				maxWidth="min(500px, 80vw)"
-				closeButton><ClusterPopup {feature} /></Popup
+				closeButton><ClusterPopup {feature} {lang} /></Popup
 			>
 		</MarkerLayer>
 
@@ -83,7 +102,7 @@
 				closeOnClickOutside
 				closeButton
 			>
-				<AssetPopup {feature} />
+				<AssetPopup {feature} {lang} />
 			</Popup>
 		</MarkerLayer>
 	</GeoJSON>

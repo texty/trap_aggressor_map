@@ -1,0 +1,32 @@
+@import 'variables';
+
+figure#assets-map #lang-switcher {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+	z-index: 1000;
+	opacity: 0.9;
+	display: flex;
+
+	button {
+		border: none;
+		cursor: pointer;
+		font-weight: bold;
+		background-color: $grey;
+		color: white;
+		padding: 0.33em 0.66em;
+		transition: background-color 400ms;
+
+		&:first-child {
+			border-radius: 4px 0 0 4px;
+		}
+
+		&:last-child {
+			border-radius: 0 4px 4px 0;
+		}
+
+		&.active {
+			background-color: $orange;
+		}
+	}
+}
