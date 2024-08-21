@@ -1,8 +1,10 @@
+<svelte:options accessors={true} />
+
 <script lang="ts">
+	import type { Popup as MLPopup, Map as MLMap } from 'maplibre-gl';
 	import { base } from '$app/paths';
 	import { tick } from 'svelte';
 	import {
-		type Map,
 		MapLibre,
 		GeoJSON,
 		FillLayer,
@@ -20,14 +22,37 @@
 	let lang: LangType;
 
 	const orange = '#FF5B00';
-	let map: Map;
+	let map: MLMap;
 	let loaded = false;
-	let currentPopUp: Popup | null = null;
+	let currentPopUp: MLPopup | null = null;
 
 	async function onPopupOpen(e: CustomEvent) {
 		currentPopUp?._closeButton.click();
 		await tick();
 		currentPopUp = e.detail;
+		if (!currentPopUp) return;
+		// re-position popup
+		const popupBcr = currentPopUp._container.getBoundingClientRect();
+		const mapBcr = map._canvas.getBoundingClientRect();
+
+		const x0 = popupBcr.x - mapBcr.x;
+		const x1 = x0 + popupBcr.width;
+		const y0 = popupBcr.y - mapBcr.y;
+		const y1 = y0 + popupBcr.height;
+
+		const extraTransforms: string[] = [];
+
+		if (x0 < 0) {
+			extraTransforms.push(`translateX(${x0 * -1 + 2}px)`);
+		} else if (x1 > mapBcr.width) {
+			extraTransforms.push(`translateX(${mapBcr.width - x1 - 2}px)`);
+		}
+		if (y0 < 0) {
+			extraTransforms.push(`translateY(${y0 * -1 + 2}px)`);
+		} else if (y1 > mapBcr.height) {
+			extraTransforms.push(`translateY(${mapBcr.height - y1 - 2}px)`);
+		}
+		currentPopUp._container.style.transform += ' ' + extraTransforms.join(' ');
 	}
 
 	function onPopupClose() {

@@ -1,13 +1,13 @@
 @import 'variables';
 
 figure#assets-map {
+	height: 80vh;
+	margin: 0;
+
 	& * {
 		font-family: 'Manrope', sans-serif;
 		font-size: 0.8rem;
 	}
-
-	height: 80vh;
-	margin: 0;
 
 	.assets-map {
 		width: 100%;
