@@ -28,7 +28,7 @@
 
 	function refinePopupPosition() {
 		if (!currentPopUp) return;
-		// re-position popup
+		// add extra transforms to the popup's div to keep it in view
 		const popupBcr = currentPopUp._container.getBoundingClientRect();
 		const mapBcr = map._canvas.getBoundingClientRect();
 
@@ -52,17 +52,22 @@
 		currentPopUp._container.style.transform += ' ' + extraTransforms.join(' ');
 	}
 
-	async function onPopupOpen(e: CustomEvent) {
+	function onPopupOpen(e: CustomEvent) {
 		currentPopUp?._closeButton.click();
-		await tick();
-		currentPopUp = e.detail;
-		refinePopupPosition();
+		tick().then(() => {
+			// without the tick, onPopupClose will set currentPopUp to null,
+			// so thet we will not be able to close it on next, new popup
+			currentPopUp = e.detail;
+			refinePopupPosition();
+		});
 	}
 
 	function onPopupClose() {
 		currentPopUp = null;
 	}
 
+	// // I've tried to make country borders more contrasting,
+	// // but bitchy tile providers made borders inside sovereign Ukrainian territory
 	// $: if (map && loaded) {
 	// 	const layerIds = ['boundary_country_inner', ];
 	// 	for (const id of layerIds) {
