@@ -26,10 +26,7 @@
 	let loaded = false;
 	let currentPopUp: MLPopup | null = null;
 
-	async function onPopupOpen(e: CustomEvent) {
-		currentPopUp?._closeButton.click();
-		await tick();
-		currentPopUp = e.detail;
+	function refinePopupPosition() {
 		if (!currentPopUp) return;
 		// re-position popup
 		const popupBcr = currentPopUp._container.getBoundingClientRect();
@@ -53,6 +50,13 @@
 			extraTransforms.push(`translateY(${mapBcr.height - y1 - 2}px)`);
 		}
 		currentPopUp._container.style.transform += ' ' + extraTransforms.join(' ');
+	}
+
+	async function onPopupOpen(e: CustomEvent) {
+		currentPopUp?._closeButton.click();
+		await tick();
+		currentPopUp = e.detail;
+		refinePopupPosition();
 	}
 
 	function onPopupClose() {
@@ -108,7 +112,8 @@
 				on:close={onPopupClose}
 				openOn="click"
 				maxWidth="min(500px, 80vw)"
-				closeButton><ClusterPopup {feature} {lang} /></Popup
+				closeButton
+				><ClusterPopup {feature} {lang} on:openPopupAsset={() => refinePopupPosition()} /></Popup
 			>
 		</MarkerLayer>
 

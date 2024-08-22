@@ -2,12 +2,13 @@
 	import type { Feature } from 'geojson';
 	import type { Point } from 'GeoJSON';
 	import type { GeoJSONSource } from 'maplibre-gl';
+	import { createEventDispatcher, tick } from 'svelte';
 	import type { MapContext } from 'svelte-maplibre/context.svelte';
 	import { mapContext } from 'svelte-maplibre';
 
 	import { type LangType, type PointDataType, asset_type_dict } from '$lib';
-	import '../../scss/cluster_popup.scss';
 	import AssetPopup from './AssetPopup.svelte';
+	import '../../scss/cluster_popup.scss';
 
 	export let feature: Feature;
 	export let lang: LangType;
@@ -18,6 +19,7 @@
 	}
 
 	const { map, source } = mapContext() as MapContext;
+	const dispatch = createEventDispatcher();
 
 	let innerFeatures: PointFeature[] = [];
 
@@ -37,7 +39,12 @@
 		//   zoom: Math.max($map.getZoom(), 11),
 		//   center: feature.geometry.coordinates as [number, number],
 		// })
-		openAssetData = feature.properties.id === openAssetData?.properties.id ? null : feature;
+		if (feature.properties.id === openAssetData?.properties.id) {
+			openAssetData = null;
+		} else {
+			openAssetData = feature;
+			tick().then(() => dispatch('openPopupAsset'));
+		}
 	}
 </script>
 
