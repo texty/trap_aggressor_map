@@ -1,12 +1,17 @@
 @import 'variables';
 
 figure#assets-map {
-	height: 80vh;
 	margin: 0;
 
 	& * {
 		font-family: 'Manrope', sans-serif;
 		font-size: 0.8rem;
+	}
+
+	#map-container {
+		height: 80vh;
+		margin: 0;
+		position: relative;
 	}
 
 	.assets-map {
@@ -33,5 +38,20 @@ figure#assets-map {
 				max-width: 80%;
 			}
 		}
+	}
+
+	h3 {
+		font-size: 24px;
+		line-height: 38px;
+		margin-bottom: 40px;
+		text-align: center;
+	}
+
+	img.logo {
+		width: 5em;
+		max-height: 100%;
+		position: absolute;
+		right: 1em;
+		bottom: 3em;
 	}
 }

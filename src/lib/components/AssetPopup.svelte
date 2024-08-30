@@ -12,6 +12,7 @@
 <div class="popup asset-popup">
 	{#if data.photo}
 		<img
+			loading="lazy"
 			src={`${base}/photo/${data.photo}`}
 			alt="Фото {data.asset_name || data.registered_address}"
 			class="asset-photo"
@@ -19,6 +20,7 @@
 	{/if}
 	<div class="flag-and-type">
 		<img
+			loading="lazy"
 			src={`${base}/flags/${data.jurisdiction}.jpg`}
 			alt="Прапор {data.jurisdiction}"
 			class="flag"

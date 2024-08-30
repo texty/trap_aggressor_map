@@ -1,2 +1,18 @@
 $orange: #ff5b00;
 $grey: rgba(0, 0, 0, 0.3);
+
+@font-face {
+	font-family: 'Manrope';
+	font-weight: 400;
+	src: url('https://trap.org.ua/wp-content/themes/swtrap/fonts/manrope/Manrope-Regular.woff2')
+		format('woff2');
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Manrope';
+	font-weight: 600;
+	src: url('https://trap.org.ua/wp-content/themes/swtrap/fonts/manrope/Manrope-SemiBold.woff2')
+		format('woff2');
+	font-style: normal;
+}
