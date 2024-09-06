@@ -1,12 +1,9 @@
 @import 'variables';
 
 figure#assets-map #lang-switcher {
-	position: absolute;
-	top: 1em;
-	right: 1em;
-	z-index: 1000;
 	opacity: 0.9;
 	display: flex;
+	justify-content: right;
 
 	button {
 		border: none;

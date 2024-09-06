@@ -1,0 +1,45 @@
+@import 'variables';
+
+figure#assets-map {
+	& * {
+		font-family: 'Manrope', sans-serif;
+	}
+
+	a {
+		color: inherit;
+		text-decoration-color: $orange;
+		color: $orange;
+		text-underline-offset: 3px;
+		cursor: pointer;
+		outline: none;
+	}
+
+	img.logo {
+		width: 5em;
+		max-height: 100%;
+		position: absolute;
+		right: 1em;
+		bottom: 3em;
+		z-index: 1000;
+	}
+
+	#map-text {
+		margin: 0 auto 0 auto;
+		width: 857px;
+		max-width: 100%;
+
+		h3 {
+			font-size: 24px;
+			line-height: 38px;
+			margin: 0.25em 0 40px 0;
+			text-align: center;
+		}
+
+		p {
+			font-size: 16px;
+			line-height: 180%;
+			font-weight: 400;
+			margin: 0 0 26px 0;
+		}
+	}
+}

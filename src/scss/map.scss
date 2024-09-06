@@ -3,15 +3,14 @@
 figure#assets-map {
 	margin: 0;
 
-	& * {
-		font-family: 'Manrope', sans-serif;
-		font-size: 0.8rem;
-	}
-
 	#map-container {
 		height: 80vh;
 		margin: 0;
 		position: relative;
+
+		& * {
+			font-size: 0.8rem;
+		}
 	}
 
 	.assets-map {
@@ -40,18 +39,11 @@ figure#assets-map {
 		}
 	}
 
-	h3 {
-		font-size: 24px;
-		line-height: 38px;
-		margin-bottom: 40px;
-		text-align: center;
-	}
+	.maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib-inner {
+		font-size: 10px !important;
 
-	img.logo {
-		width: 5em;
-		max-height: 100%;
-		position: absolute;
-		right: 1em;
-		bottom: 3em;
+		a {
+			font-size: 10px !important;
+		}
 	}
 }

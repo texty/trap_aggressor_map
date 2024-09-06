@@ -1,6 +1,6 @@
 @import 'variables';
 
-.popup.asset-popup {
+figure#assets-map .popup.asset-popup {
 	img.asset-photo {
 		width: 100%;
 		max-height: min(15em, 25vh);
@@ -26,14 +26,5 @@
 
 	h4 {
 		text-align: center;
-	}
-
-	a {
-		color: inherit;
-		text-decoration-color: $orange;
-		color: $orange;
-		text-underline-offset: 3px;
-		cursor: pointer;
-		outline: none;
 	}
 }
