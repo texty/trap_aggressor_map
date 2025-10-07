@@ -7,6 +7,9 @@ dist/
 /.svelte-kit
 /build
 
+# Mine
+/test
+
 # OS
 .DS_Store
 Thumbs.db
