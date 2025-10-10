@@ -80,8 +80,8 @@
 	class="assets-map"
 	style="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
 	standardControls
-	center={[7, 47]}
-	zoom={4}
+	center={[-30, 40]}
+	zoom={3}
 	minZoom={2}
 	bind:map
 	bind:loaded
